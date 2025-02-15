@@ -47,7 +47,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # 5. Train Random Forest classifier
-rf_model = RandomForestClassifier(n_estimators=3,max_depth=4, random_state=42)
+rf_model = RandomForestClassifier(n_estimators = 3,max_depth=6, random_state=42)
 rf_model.fit(X_train, y_train)
 
 # 6. Evaluate the model on the test set
