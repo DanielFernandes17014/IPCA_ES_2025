@@ -4,8 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
-import joblib
-import m2cgen as m2c  
+from micromlgen import port
 
 # 1. Load the CSV dataset
 data = pd.read_csv('cat_movement_labeled.csv')
@@ -24,7 +23,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # 5. Create and train the Random Forest model
-rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+rf_model = RandomForestClassifier(n_estimators=5, random_state=42)
 rf_model.fit(X_train, y_train)
 
 # 6. Evaluate the model on the test set
@@ -34,12 +33,6 @@ print("Test accuracy:", accuracy)
 print("Classification Report:")
 print(classification_report(y_test, y_pred))
 
-# 7. Save the model as a pickle file
-joblib.dump(rf_model, 'movement_rf_model.pkl')
-print("Random Forest model saved as movement_rf_model.pkl")
-
-# 8. Export the model as C code using m2cgen
-c_code = m2c.export_to_c(rf_model)
-with open("rf_model.c", "w") as f:
-    f.write(c_code)
-print("C code for the Random Forest model saved as rf_model.c")
+print(port(rf_model))
+with open('.\RF_classifier.h','w') as file:
+    file.write(port(rf_model))
